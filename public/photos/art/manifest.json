@@ -1,0 +1,112 @@
+[
+  {
+    "file": "/photos/art/01.webp",
+    "title": "漆画《春作》",
+    "meta": "大漆 · 60×60cm · 2015",
+    "kind": "own",
+    "w": 1600,
+    "h": 1582,
+    "orig": "2528x2501",
+    "kb": 460.9
+  },
+  {
+    "file": "/photos/art/02.webp",
+    "title": "玻璃艺术 No.1",
+    "meta": "玻璃 · 综合材料",
+    "kind": "own",
+    "w": 1600,
+    "h": 901,
+    "orig": "4896x2760",
+    "kb": 72.3
+  },
+  {
+    "file": "/photos/art/03.webp",
+    "title": "玻璃艺术 No.2",
+    "meta": "玻璃 · 综合材料",
+    "kind": "own",
+    "w": 1600,
+    "h": 901,
+    "orig": "4896x2760",
+    "kb": 58.1
+  },
+  {
+    "file": "/photos/art/04.webp",
+    "title": "玻璃艺术 No.3",
+    "meta": "玻璃 · 综合材料",
+    "kind": "own",
+    "w": 1600,
+    "h": 901,
+    "orig": "4896x2760",
+    "kb": 60.9
+  },
+  {
+    "file": "/photos/art/05.webp",
+    "title": "玻璃艺术 No.4",
+    "meta": "玻璃 · 综合材料",
+    "kind": "own",
+    "w": 1600,
+    "h": 901,
+    "orig": "4896x2760",
+    "kb": 106.5
+  },
+  {
+    "file": "/photos/art/06.webp",
+    "title": "玻璃艺术 No.5",
+    "meta": "玻璃 · 综合材料",
+    "kind": "own",
+    "w": 1600,
+    "h": 901,
+    "orig": "4896x2760",
+    "kb": 114.0
+  },
+  {
+    "file": "/photos/art/07.webp",
+    "title": "玻璃艺术 No.6",
+    "meta": "玻璃 · 综合材料",
+    "kind": "own",
+    "w": 1600,
+    "h": 901,
+    "orig": "4896x2760",
+    "kb": 190.0
+  },
+  {
+    "file": "/photos/art/08.webp",
+    "title": "玻璃艺术 No.7",
+    "meta": "玻璃 · 综合材料",
+    "kind": "own",
+    "w": 1600,
+    "h": 901,
+    "orig": "4896x2760",
+    "kb": 115.5
+  },
+  {
+    "file": "/photos/art/09.webp",
+    "title": "纤维软雕塑",
+    "meta": "纤维 · 软雕塑",
+    "kind": "own",
+    "w": 1023,
+    "h": 1023,
+    "orig": "1023x1023",
+    "kb": 127.9
+  },
+  {
+    "file": "/photos/art/10.webp",
+    "title": "田中一光 作品研究（一）",
+    "meta": "平面设计 · 藏",
+    "kind": "collection",
+    "w": 1600,
+    "h": 1131,
+    "orig": "4961x3508",
+    "kb": 208.1
+  },
+  {
+    "file": "/photos/art/11.webp",
+    "title": "田中一光 作品研究（二）",
+    "meta": "平面设计 · 藏",
+    "kind": "collection",
+    "w": 1600,
+    "h": 1131,
+    "orig": "4961x3508",
+    "kb": 185.3
+  }
+]

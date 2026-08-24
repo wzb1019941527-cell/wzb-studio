@@ -1,0 +1,251 @@
+{
+  "studio": "WZB STUDIO",
+  "tagline": "Space Stylist & Interior Curator",
+  "contact": {
+    "email": "1019941527@qq.com",
+    "phone": "18123755082",
+    "xiaohongshu": "wwwzzb"
+  },
+  "projects": [
+    {
+      "slug": "p01",
+      "index": "01",
+      "title": "邱锡鹏个人展览：河神的女儿",
+      "en": "DAUGHTER OF THE RIVER GOD",
+      "year": "2026",
+      "location": "Shenzhen, China",
+      "tags": [
+        "Exhibition"
+      ],
+      "storyEn": "A solo exhibition by Qiuxipeng — \"Daughter of the River God\" — staged against deep neutral walls, where each soft-furnishing interval becomes a pause for the river to surface in the room.",
+      "storyCn": "邱锡鹏个展「河神的女儿」：深沉的中性底色承接每一件装置，软装于序列之间留出呼吸间隙，让河流走入空间。",
+      "nImages": 2,
+      "layout": "1+1"
+    },
+    {
+      "slug": "p02",
+      "index": "02",
+      "title": "「放·起」黎鸿城&许锦龙双个展",
+      "en": "FANG · QI",
+      "year": "2026",
+      "location": "Shenzhen, China",
+      "tags": [
+        "Exhibition"
+      ],
+      "storyEn": "A dual exhibition titled \"Fang · Qi\", framing the dialogue between Li Hongcheng and Xu Jinlong — restrained staging places the two practices on equal footing, the empty intervals between works letting their conversation breathe.",
+      "storyCn": "「放·起」黎鸿城与许锦龙双个展：以克制的展陈让两位艺术家的作品平起平坐，作品之间的留白即是他们对话的呼吸。",
+      "nImages": 3,
+      "layout": "1+2"
+    },
+    {
+      "slug": "p03",
+      "index": "03",
+      "title": "成都国贸启樾天玺 245",
+      "en": "CHENGDU GUOMAO QIYUE TIANXI 245",
+      "year": "2025",
+      "location": "Chengdu, China",
+      "tags": [
+        "Commercial",
+        "Hospitality"
+      ],
+      "storyEn": "A hospitality-grade commercial styling: deep wood and brass anchor the luxury, while clustered seating forms stay-able social nodes that slow the transaction down.",
+      "storyCn": "酒店级商业软装：深木与黄铜锚定高级感，成簇的座椅构成可停留的社交节点，让交易空间也能慢下来。",
+      "nImages": 4,
+      "layout": "1+3"
+    },
+    {
+      "slug": "p04",
+      "index": "04",
+      "title": "广州侨鑫",
+      "en": "GUANGZHOU QIAOXIN RESIDENCE",
+      "year": "2025",
+      "location": "Guangzhou, China",
+      "tags": [
+        "Residential",
+        "Interior"
+      ],
+      "storyEn": "Rooted in Lingnan's humidity, the styling draws the outdoors in through airy lights and greenery, with movable pieces that let the home rearrange itself daily.",
+      "storyCn": "以岭南的湿热为底，用通透浅色与绿植把户外引渡进室内；可移动的软装让空间随日常随时重组。",
+      "nImages": 2,
+      "layout": "1+1"
+    },
+    {
+      "slug": "p05",
+      "index": "05",
+      "title": "济南金地 162",
+      "en": "JINAN JINDI 162",
+      "year": "2024",
+      "location": "Jinan, China",
+      "tags": [
+        "Residential",
+        "Interior"
+      ],
+      "storyEn": "Spring-water as motif: cool slate-blue against warm timber, long-pile rugs and draped curtains softening the right angles into a quiet envelope.",
+      "storyCn": "以泉城的水意为题，用冷调灰蓝与暖木形成温度对比；长绒地毯与垂坠帘幕柔化直角，给硬装空间裹出一处安静。"
+    },
+    {
+      "slug": "p06",
+      "index": "06",
+      "title": "济南金地 235",
+      "en": "JINAN JINDI 235",
+      "year": "2024",
+      "location": "Jinan, China",
+      "tags": [
+        "Model Home"
+      ],
+      "storyEn": "A younger, lighter reading of the same geography — an accent chair and geometric side table seed memory points within standardization.",
+      "storyCn": "同一地缘的另一种解法：更年轻、更轻盈，以跳色单椅与几何边几制造记忆点，让样板间在标准化中跳出个性。"
+    },
+    {
+      "slug": "p07",
+      "index": "07",
+      "title": "北京西红门 129",
+      "en": "BEIJING XIHONGMEN 129",
+      "year": "2023",
+      "location": "Beijing, China",
+      "tags": [
+        "Residential",
+        "Interior"
+      ],
+      "storyEn": "A whole-home styling where earthy textiles and handmade ceramics compose a livable negative space, letting the finished base recede and lived traces take the lead.",
+      "storyCn": "一套城市住宅的整体软装：以大地色织物与手作陶器组织出可被居住的留白，让精装基底退后，生活痕迹成为主角。"
+    },
+    {
+      "slug": "p08",
+      "index": "08",
+      "title": "北京西红门 149",
+      "en": "BEIJING XIHONGMEN 149",
+      "year": "2024",
+      "location": "Beijing, China",
+      "tags": [
+        "Residential",
+        "Interior"
+      ],
+      "storyEn": "A sibling plan to 129 — warmer oak and softer lighting, tuning the same footprint toward a calmer, more tactile domesticity.",
+      "storyCn": "与 129 同源的另一套方案：更暖的橡木与更柔的灯光，把同一户型调向更安静、更具触感的居家感。"
+    },
+    {
+      "slug": "p09",
+      "index": "09",
+      "title": "常熟合院",
+      "en": "CHANGSHU COURTYARD HOUSE",
+      "year": "2025",
+      "location": "Changshu, China",
+      "tags": [
+        "Model Home"
+      ],
+      "storyEn": "Borrowing the courtyard's advancing-receding order, void outside meets fullness inside; bamboo, stone and plain linen answer the local temper.",
+      "storyCn": "借江南合院的进落秩序，把庭院的空与室内的满对置；竹、石与素麻呼应在地气质，让样板间像一户真正住着的人家。"
+    },
+    {
+      "slug": "p10",
+      "index": "10",
+      "title": "华润北京瑞府会所",
+      "en": "CHINA RESOURCES BEIJING RUIFU CLUB",
+      "year": "2023",
+      "location": "Beijing, China",
+      "tags": [
+        "Club",
+        "Hospitality"
+      ],
+      "storyEn": "A members' club styling where sober stone and lacquer build weight, and a single warm glow retains the privacy and ease of a private residence.",
+      "storyCn": "会所软装以沉稳石材与大漆构建分量，一抹暖光保留私家住宅般的私密与松弛。",
+      "nImages": 2,
+      "layout": "2-overlap"
+    },
+    {
+      "slug": "p11",
+      "index": "11",
+      "title": "苏州龙湖山河颂",
+      "en": "SUZHOU LONGHU SHANHE SONG",
+      "year": "2025",
+      "location": "Suzhou, China",
+      "tags": [
+        "Model Home"
+      ],
+      "storyEn": "A showflat strategy that seeds local character into a standardized plan; warm wood and handmade objects dissolve uniformity into lived-in warmth.",
+      "storyCn": "样板间软装策略：在标准化户型中植入在地气质，以暖木与手作器物消解精装房的均质，营造有人住过的温度。"
+    },
+    {
+      "slug": "p12",
+      "index": "12",
+      "title": "深圳中海云颂玖章花园 128",
+      "en": "SHENZHEN ZHONGHAI YUNSONG 128",
+      "year": "2026",
+      "location": "Shenzhen, China",
+      "tags": [
+        "Model Home"
+      ],
+      "storyEn": "Compact yet generous — a 128-plan tuned with light oak and curved textiles, proving refinement needs no square-meter surplus.",
+      "storyCn": "紧凑而慷慨：以浅橡木与弧形织物调校 128 户型，证明精致无需面积的富余。"
+    },
+    {
+      "slug": "p13",
+      "index": "13",
+      "title": "福州龙湖商墅",
+      "en": "FUZHOU LONGHU VILLA",
+      "year": "2021",
+      "location": "Fuzhou, China",
+      "tags": [
+        "Commercial",
+        "Hospitality"
+      ],
+      "storyEn": "A \"workable yet livable\" brief for a commercial villa — dark wood and leather define the weight of hosting, a warm glow keeping domestic ease.",
+      "storyCn": "商墅的软装以可商可居为命题：沉稳深木与皮革定义会客的厚重，一抹暖光保留居家的私密与松弛。"
+    },
+    {
+      "slug": "p14",
+      "index": "14",
+      "title": "太原金地",
+      "en": "TAIYUAN JINDI RESIDENCE",
+      "year": "2022",
+      "location": "Taiyuan, China",
+      "tags": [
+        "Residential",
+        "Interior"
+      ],
+      "storyEn": "Warm orange and ochre punctuate a neutral grey; a curved sofa and plush textile soften the architecture's hardness, conjuring northern warmth.",
+      "storyCn": "用暖橘与赭石的局部点亮中性灰调，弧形沙发与毛绒织物软化建筑的硬朗，营造北方居所应有的温度。"
+    },
+    {
+      "slug": "p15",
+      "index": "15",
+      "title": "龙湖扬州 143 户型",
+      "en": "LONGHU YANGZHOU 143",
+      "year": "2021",
+      "location": "Yangzhou, China",
+      "tags": [
+        "Model Home"
+      ],
+      "storyEn": "A showflat that seeds Yangzhou's gentleness into a standard plan; handmade objects and warm wood dissolve the finished shell into lived-in warmth.",
+      "storyCn": "样板间软装：在扬州的标准户型中植入温润气质，以手作器物与暖木消解精装房的均质。"
+    },
+    {
+      "slug": "p16",
+      "index": "16",
+      "title": "北京龙湖下跃",
+      "en": "BEIJING LONGHU LOWER RESIDENCE",
+      "year": "2023",
+      "location": "Beijing, China",
+      "tags": [
+        "Residential",
+        "Interior"
+      ],
+      "storyEn": "Centered on \"sunken living\", low-saturation warm greys and natural wood build depth; layered textiles balance the void without closing off.",
+      "storyCn": "以下沉式起居为核心，用低饱和的暖灰与天然木质构建纵深；织物层叠平衡挑空，既有包裹感又不失通透。"
+    },
+    {
+      "slug": "p17",
+      "index": "17",
+      "title": "成都绵阳 100 亩",
+      "en": "CHENGDU MIANYANG 100MU",
+      "year": "2021",
+      "location": "Chengdu, China",
+      "tags": [
+        "Model Home"
+      ],
+      "storyEn": "A showflat for a hundred-mu development, laid in warm white and oak; tasteful singular objects voice a \"less but finer\" way of living.",
+      "storyCn": "百亩大盘的展示样板：以暖白与橡木铺陈松弛的生活底色，用品味单品传达少而精的居住主张。"
+    }
+  ]
+}

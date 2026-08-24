@@ -1,0 +1,42 @@
+# 依赖
+node_modules/
+
+# 构建产物（Cloudflare Pages 会自动构建）
+dist/
+dist_*/
+
+# TypeScript 增量缓存
+*.tsbuildinfo
+
+# 个人/项目记忆与临时数据
+.workbuddy/
+.tunnel/
+
+# 本地方案文件
+qa_pdf/
+generated-images/
+
+# 本地辅助脚本与说明（只在你本机用）
+*.bat
+本地站说明.txt
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 日志
+*.log
+npm-debug.log*
+
+# 环境变量（万一以后加）
+.env
+.env.local
+.env.*.local
