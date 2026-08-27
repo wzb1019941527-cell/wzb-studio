@@ -336,6 +336,19 @@ body {
   100% { background-position: 10px -6px; }
 }
 
+/* ── 移动端横向滑动浏览（Portraits / Artworks pair）── */
+.portraits-scroll,
+.art-pair-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+.portraits-scroll::-webkit-scrollbar,
+.art-pair-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── 移动端响应式适配（≤768px）────────────────────────────── */
 @media (max-width: 768px) {
   html {

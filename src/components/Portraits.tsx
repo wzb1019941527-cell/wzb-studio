@@ -67,10 +67,10 @@ export default function Portraits({ onClose }: { onClose: () => void }) {
         </span>
       </div>
 
-      {/* ═══ 图片区：flex-1 垂直居中，等高横排 ═══ */}
-      <div className="flex flex-1 items-center justify-center overflow-hidden">
+      {/* ═══ 图片区：flex-1 垂直居中；手机端横向滑动浏览，桌面端等高横排居中 ═══ */}
+      <div className="flex flex-1 items-center overflow-hidden">
         {items.length > 0 ? (
-          <div className="flex items-end justify-center gap-3 sm:gap-4 md:gap-5">
+          <div className="portraits-scroll flex w-full items-end gap-3 overflow-x-auto px-[3.5vw] py-2 sm:gap-4 md:gap-5 md:justify-center md:overflow-visible md:px-0">
             {items.map((im, ii) => (
               <button
                 key={im.f}

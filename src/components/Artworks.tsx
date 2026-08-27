@@ -248,7 +248,7 @@ export default function Artworks({ onClose: _onClose }: { onClose: () => void })
 
         {/* 中央作品画框（几何居中，保留原比例不裁切） */}
         <div ref={imgRef} className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center will-change-transform">
-          <div className={`relative flex items-end gap-5 ${isPair ? 'flex-row' : 'flex-col'}`}>
+          <div className={`art-pair-scroll relative flex items-end gap-5 px-[3.5vw] py-2 ${isPair ? 'flex-row overflow-x-auto md:overflow-visible md:px-0 md:py-0' : 'flex-col'}`}>
             {cur.items.map((it, ii) => (
               <div key={it.file} className="relative shrink-0">
                 <img
