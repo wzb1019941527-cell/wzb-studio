@@ -79,7 +79,7 @@ export default function ModalShell({
         </span>
       )}
       {/* 内容容器：固定舞台模式锁定 100vh 全屏不滚动；普通模式可纵向滚动 */}
-      <div ref={ref} className={fixedStage ? 'relative h-screen w-screen' : 'min-h-screen px-[7vw] pb-[12vh] pt-[14vh]'}>
+      <div ref={ref} className={fixedStage ? 'relative h-screen w-screen' : 'min-h-screen px-[3.5vw] pb-[12vh] pt-[14vh]'}>
         {children}
       </div>
     </div>

@@ -44,7 +44,7 @@ export default function Header() {
   const idx = String((caseInfo.index ?? 0) + 1).padStart(2, '0')
 
   return (
-    <header className="site-header fixed inset-x-0 top-0 z-40 flex items-center justify-between px-[5vw] py-5">
+    <header className="site-header fixed inset-x-0 top-0 z-40 flex items-center justify-between px-[3.5vw] py-5">
       {/* 左：WZB STUDIO | [0X] | 标题 */}
       <div className="flex items-center gap-3">
         <a

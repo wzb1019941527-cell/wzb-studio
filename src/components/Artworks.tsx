@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { useLightbox, type EditorialCaption } from './Lightbox'
+import { useMenu } from './MenuContext'
 
 /**
  * 02 ART —— 100vh 全屏固定展台（与 01 WORK 语言一致）
  *  · 容器 w-screen h-screen relative overflow-hidden，锁定 100vh，绝不纵向滚动
- *  · 顶栏中轴：WZB STUDIO | [ 01 / 09 ] | 02 ARTWORKS | [ CLOSE × ]
+ *  · 顶栏：左 WZB STUDIO [02] + 类别描述 / 中 16x16 克制艺术徽标 / 右 02 ARTWORKS ···· Menu（完全对齐 Header 视觉语言；关闭走 Menu 切换或 ESC）
  *  · 四角元数据：FINE ART & CURATION / SCROLL / DRAG / studio@wzb.art / SHENZHEN / CHINA
  *  · 中央作品画框（max 55vw × 60vh）几何居中、绝对平置、保留原比例不裁切
  *  · 展品铭牌：英文/拼音大字号（Syne 先锋宽体 + 字重700 + 极高字距）+ 极细宋体中文铭牌（卡其）+ 媒材行
@@ -82,7 +83,9 @@ const GALLERY = {
   transition: { out: 0.32, in: 0.62, inEase: 'power3.out', slide: 8 },
 }
 
-export default function Artworks({ onClose }: { onClose: () => void }) {
+export default function Artworks({ onClose: _onClose }: { onClose: () => void }) {
+  const { setMenuOpen, menuOpen } = useMenu()
+  const menuOpenRef = useRef(menuOpen); menuOpenRef.current = menuOpen
   const units = useMemo(() => buildUnits(ART), [])
   const [index, setIndex] = useState(0)
   const total = units.length
@@ -128,6 +131,7 @@ export default function Artworks({ onClose }: { onClose: () => void }) {
     const metaQ = make(metaRef)
 
     const onMove = (e: PointerEvent) => {
+      if (menuOpenRef.current) return
       const nx = e.clientX / window.innerWidth - 0.5
       const ny = e.clientY / window.innerHeight - 0.5
       const A = GALLERY.parallax.amp
@@ -185,12 +189,42 @@ export default function Artworks({ onClose }: { onClose: () => void }) {
     const el = sectionRef.current
     if (!el) return
     const onWheel = (e: WheelEvent) => {
+      if (menuOpenRef.current) return
       if (animating.current) { e.preventDefault(); return }
       e.preventDefault()
       go(e.deltaY > 0 ? 1 : -1)
     }
     el.addEventListener('wheel', onWheel, { passive: false })
     return () => el.removeEventListener('wheel', onWheel)
+  }, [total])
+
+  // 触摸滑动（手机端左右滑动切换艺术品）
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    let startX = 0, startY = 0, tracking = false
+    const onTouchStart = (e: TouchEvent) => {
+      if (animating.current || menuOpenRef.current) return
+      const t = e.touches[0]
+      startX = t.clientX; startY = t.clientY; tracking = true
+    }
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!tracking) return
+      tracking = false
+      const t = e.changedTouches[0]
+      const dx = t.clientX - startX
+      const dy = t.clientY - startY
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        e.preventDefault()
+        go(dx < 0 ? 1 : -1)
+      }
+    }
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchend', onTouchEnd, { passive: false })
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchend', onTouchEnd)
+    }
   }, [total])
 
   // 展品铭牌掩码划出动效（与 01 WORK 语言统一：英文先滑出，中文副标题随后）
@@ -222,8 +256,9 @@ export default function Artworks({ onClose }: { onClose: () => void }) {
                   src={it.file}
                   alt={it.title}
                   draggable={false}
-                  loading="lazy"
                   decoding="async"
+                  onError={(e) => { console.warn('[ART] img failed', it.file, e); }}
+                  onLoad={() => console.log('[ART] img loaded', it.file)}
                   onClick={() => open(unitItems, ii)}
                   className="pointer-events-auto block cursor-pointer select-none rounded-sm bg-mist"
                   style={{
@@ -314,21 +349,46 @@ export default function Artworks({ onClose }: { onClose: () => void }) {
         </div>
       </div>
 
-      {/* 顶栏中轴：WZB STUDIO | [ 01 / 09 ] | 02 ARTWORKS | [ CLOSE × ] */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-[3vh] z-50 flex -translate-x-1/2 items-center gap-3 font-mono uppercase"
-        style={{ fontWeight: 300, letterSpacing: '0.2em', fontSize: '0.66rem' }}
-      >
-        <span className="text-one/70">WZB STUDIO</span>
-        <span className="text-one/25">|</span>
-        <span className="tabular-nums text-khaki/80">[ {pad(index + 1)} / {pad(total)} ]</span>
-        <span className="text-one/25">|</span>
-        <span className="text-one/70">02 ARTWORKS</span>
-        <span className="text-one/25">|</span>
-        <button type="button" onClick={onClose}
-          className="pointer-events-auto text-one/60 transition-colors duration-300 hover:text-one">
-          [ CLOSE <span aria-hidden>×</span> ]
-        </button>
+      {/* 顶栏对齐 Header 视觉语言：左 WZB STUDIO [02] + 类别 / 中 16x16 徽标 / 右 02 ARTWORKS ···· Menu */}
+      <div className="absolute inset-x-0 top-0 z-50 flex items-center justify-between px-[3.5vw] py-5">
+        {/* 左：WZB STUDIO | [02] | 类别描述 */}
+        <div className="flex items-center gap-3">
+          <span className="font-mono uppercase text-one" style={{ fontWeight: 500, letterSpacing: '0.24em', fontSize: '0.95rem' }}>
+            WZB STUDIO
+          </span>
+          <span className="inline-block font-mono tabular-nums text-khaki/70" style={{ fontWeight: 400, letterSpacing: '0.2em', fontSize: '0.62rem' }}>
+            [02]
+          </span>
+          <span className="hidden max-w-[28vw] truncate font-mono text-one/55 sm:inline-block" style={{ fontWeight: 300, letterSpacing: '0.06em', fontSize: '0.66rem' }}>
+            玻璃艺术 · 漆画 · 综合媒材
+          </span>
+        </div>
+
+        {/* 中：16x16 克制艺术徽标（装饰，禁用点击） */}
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
+            <circle cx="8" cy="8" r="7" stroke="rgba(156,138,114,0.6)" strokeWidth="0.75" />
+            <path d="M8 2.5 L8 13.5 M2.5 8 L13.5 8" stroke="rgba(156,138,114,0.45)" strokeWidth="0.5" />
+            <circle cx="8" cy="8" r="2" stroke="rgba(245,243,239,0.55)" strokeWidth="0.6" />
+          </svg>
+        </div>
+
+        {/* 右：02 ARTWORKS | ···· Menu */}
+        <div className="flex items-center gap-4">
+          <span className="hidden font-mono uppercase text-one/55 md:inline-block" style={{ fontWeight: 400, letterSpacing: '0.28em', fontSize: '0.62rem' }}>
+            02 ARTWORKS
+          </span>
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            className="group relative flex items-center gap-1.5 font-mono uppercase text-khaki/80 transition-colors duration-300 hover:text-one"
+            style={{ fontWeight: 300, letterSpacing: '0.22em', fontSize: '0.66rem' }}
+          >
+            <span className="text-one/35">····</span>
+            <span>Menu</span>
+            <span className="pointer-events-none absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-khaki transition-transform duration-300 ease-out group-hover:scale-x-100" />
+          </button>
+        </div>
       </div>
 
       {/* 左右极细箭头（底部居中） */}
@@ -351,7 +411,7 @@ export default function Artworks({ onClose }: { onClose: () => void }) {
           aria-hidden
         />
         {/* 项目数字轴（可点击跳转） */}
-        <div className="pointer-events-auto absolute inset-x-0 bottom-3 flex items-end justify-between px-[5vw]">
+        <div className="pointer-events-auto absolute inset-x-0 bottom-3 flex items-end justify-between px-[3.5vw]">
           {units.map((_u, i) => {
             const active = i === index
             return (

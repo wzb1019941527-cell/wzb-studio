@@ -2,17 +2,11 @@ import { useState, useEffect } from 'react'
 import { useLightbox } from './Lightbox'
 
 /**
- * 个人形象照专区
- * 职责：展示不同风格的你本人，建立信任与辨识度。按风格分组（工作 / 生活 / 艺术）。
- * 数据驱动：将形象照放入 public/photos/portraits/<风格>/ 即展示（由 portraitsManifest.json 驱动）。
- * 条件渲染：无图片的分组直接收起，绝不展示「待添加」虚线空框。
+ * 个人形象照专区 —— 固定一屏版
+ * 图不多，采用 fixedStage 全屏固定布局：顶栏 + 标题 + 居中图片列，杜绝滚动。
+ * 点击图片进入灯箱浏览；ESC / CLOSE 关闭模态。
  */
 type PItem = { f: string; w: number; h: number }
-type PGroup = { label: string; desc: string; items: PItem[] }
-
-const GROUPS: Array<{ key: string; label: string; desc: string }> = [
-  { key: 'all', label: '形象画廊', desc: '不同场景下的个人形象照' },
-]
 
 function usePortraitsManifest(): Record<string, PItem[]> {
   const [m, setM] = useState<Record<string, PItem[]>>({})
@@ -27,78 +21,86 @@ function usePortraitsManifest(): Record<string, PItem[]> {
   return m
 }
 
-export default function Portraits() {
+export default function Portraits({ onClose }: { onClose: () => void }) {
   const open = useLightbox()
   const manifest = usePortraitsManifest()
+  const items = manifest['all'] ?? []
 
-  // 仅渲染有图片的分组（无数据分组直接收起）
-  const groups = GROUPS
-    .map((g) => ({ ...g, items: manifest[g.key] ?? [] }))
-    .filter((g) => g.items.length > 0) as Array<PGroup & { key: string }>
+  const lightboxItems = items.map((im) => ({
+    src: `/photos/portraits/all/${im.f}`,
+    alt: `形象照 ${im.f}`,
+  }))
 
   return (
-    <section id="portraits" className="relative w-full bg-void px-[7vw] pt-[6vh] pb-[8vh]">
-      {/* 板块标头 */}
-      <div className="mb-[8vh] flex items-baseline justify-between border-b border-line pb-5">
-        <h2 className="font-cjk text-one" style={{ fontWeight: 300, fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>
+    <div className="relative flex h-full w-full flex-col overflow-hidden bg-void px-[3.5vw]">
+      {/* ═══ 顶栏：PORTRAITS 标 + CLOSE ═══ */}
+      <div className="flex shrink-0 items-center justify-between py-[5vh]">
+        <span
+          className="font-mono uppercase text-one/40"
+          style={{ fontWeight: 300, letterSpacing: '0.3em', fontSize: '0.66rem' }}
+        >
+          PORTRAITS
+        </span>
+        <button
+          type="button"
+          onClick={onClose}
+          className="group flex items-center gap-2 font-mono uppercase text-one/70 transition-colors duration-300 hover:text-one"
+          style={{ fontWeight: 300, letterSpacing: '0.25em', fontSize: '0.72rem' }}
+        >
+          [ CLOSE <span aria-hidden>×</span> ]
+        </button>
+      </div>
+
+      {/* ═══ 标题区 ═══ */}
+      <div className="mb-[3vh] flex shrink-0 items-baseline justify-between border-b border-line pb-4">
+        <h2
+          className="font-cjk text-one"
+          style={{ fontWeight: 300, fontSize: 'clamp(1.6rem, 3.2vw, 2.6rem)' }}
+        >
           个人形象照
         </h2>
         <span
-          className="font-mono uppercase text-one/45"
+          className="hidden font-mono uppercase text-one/45 sm:inline-block"
           style={{ fontWeight: 300, letterSpacing: '0.3em', fontSize: '0.7rem' }}
         >
           PORTRAITS
         </span>
       </div>
 
-      {/* 有数据的分组才渲染；无图片分组彻底收起，不留空框 */}
-      {groups.length > 0 ? (
-        <div className="flex flex-col gap-[12vh]">
-          {groups.map((g) => {
-            const items = g.items.map((im) => ({
-              src: `/photos/portraits/${g.key}/${im.f}`,
-              alt: `${g.label} ${im.f}`,
-            }))
-            return (
-              <div key={g.key}>
-                <div className="mb-5 flex flex-wrap items-baseline gap-4">
-                  <h3 className="font-display text-one" style={{ fontWeight: 300, fontSize: 'clamp(1.4rem, 2.6vw, 2rem)' }}>
-                    {g.label}
-                  </h3>
-                  <span
-                    className="font-cjk text-one/45"
-                    style={{ fontWeight: 300, fontSize: '0.82rem', letterSpacing: '0.05em' }}
-                  >
-                    {g.desc}
-                  </span>
-                </div>
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                  {g.items.map((im, ii) => (
-                    <button
-                      key={im.f}
-                      type="button"
-                      onClick={() => open(items, ii)}
-                      className="group/card relative aspect-[3/4] cursor-pointer select-none overflow-hidden rounded-[2px] bg-mist transition-shadow duration-300 ease-out hover:shadow-[0_16px_44px_rgba(0,0,0,0.38)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-khaki/60"
-                      style={{ border: '1px solid #222222' }}
-                    >
-                      <img
-                        src={`/photos/portraits/${g.key}/${im.f}`}
-                        alt={`${g.label} ${ii + 1}`}
-                        draggable={false}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover/card:scale-[1.05]"
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      ) : (
-        // 完全无数据时，仅保留干净标头，不展示任何「待添加」占位
-        <div className="h-px w-full bg-line/30" aria-hidden="true" />
-      )}
-    </section>
+      {/* ═══ 图片区：flex-1 垂直居中，等高横排 ═══ */}
+      <div className="flex flex-1 items-center justify-center overflow-hidden">
+        {items.length > 0 ? (
+          <div className="flex items-end justify-center gap-3 sm:gap-4 md:gap-5">
+            {items.map((im, ii) => (
+              <button
+                key={im.f}
+                type="button"
+                onClick={() => open(lightboxItems, ii)}
+                className="group/card relative shrink-0 cursor-pointer select-none overflow-hidden rounded-[2px] bg-mist transition-shadow duration-500 ease-out hover:shadow-[0_20px_50px_rgba(0,0,0,0.45)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-khaki/60"
+                style={{ border: '1px solid rgba(255,255,255,0.06)' }}
+              >
+                <img
+                  src={`/photos/portraits/all/${im.f}`}
+                  alt={`形象照 ${ii + 1}`}
+                  draggable={false}
+                  loading="lazy"
+                  className="h-[52vh] w-auto object-cover transition-transform duration-700 ease-out group-hover/card:scale-[1.04] sm:h-[56vh] md:h-[60vh]"
+                />
+                {/* 底部极细渐变，保证 hover 时边缘层次 */}
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
+                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 40%)' }}
+                  aria-hidden
+                />
+              </button>
+            ))}
+          </div>
+        ) : (
+          // 无数据时保持干净，仅一条细分隔线
+          <div className="h-px w-full bg-line/30" aria-hidden="true" />
+        )}
+      </div>
+
+    </div>
   )
 }

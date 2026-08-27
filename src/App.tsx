@@ -92,15 +92,15 @@ export default function App() {
 
         {/* ═══ Contact 改回独立模态板块（Menu 05 CONTACT 呼出）—— 不与 Cases 混在同一滚动流，点开才覆盖上来 ═══ */}
         {modal === 'contact' && (
-          <ModalShell label="CONTACT" onClose={() => setModal(null)}>
-            <Contact />
+          <ModalShell label="CONTACT" fixedStage onClose={() => setModal(null)}>
+            <Contact onClose={() => setModal(null)} />
           </ModalShell>
         )}
 
         {/* ═══ 全屏模态：从 Menu 抽屉呼出（不占主页滚动）═══ */}
         {modal === 'portraits' && (
-          <ModalShell label="PORTRAITS" onClose={() => setModal(null)}>
-            <Portraits />
+          <ModalShell label="PORTRAITS" fixedStage onClose={() => setModal(null)}>
+            <Portraits onClose={() => setModal(null)} />
           </ModalShell>
         )}
         {modal === 'artworks' && (

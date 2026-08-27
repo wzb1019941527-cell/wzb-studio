@@ -207,6 +207,9 @@ const TAG_MAP: Record<string, string[]> = {
 
 export default function Cases() {
   const [index, setIndex] = useState(0)
+  const [hoverIndex, setHoverIndex] = useState(-1)
+  const [dockActive, setDockActive] = useState(false)
+  const [thumbsLoaded, setThumbsLoaded] = useState(false)
   const total = CASES.length
   const cur = CASES[index]
 
@@ -334,6 +337,36 @@ export default function Cases() {
     }
     el.addEventListener('wheel', onWheel, { passive: false })
     return () => el.removeEventListener('wheel', onWheel)
+  }, [total])
+
+  // ── 触摸滑动（手机端左右滑动切换项目）──
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    let startX = 0, startY = 0, tracking = false
+    const onTouchStart = (e: TouchEvent) => {
+      if (animating.current) return
+      const t = e.touches[0]
+      startX = t.clientX; startY = t.clientY; tracking = true
+    }
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!tracking) return
+      tracking = false
+      const t = e.changedTouches[0]
+      const dx = t.clientX - startX
+      const dy = t.clientY - startY
+      // 水平滑动阈值 50px，且水平位移大于垂直位移
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        e.preventDefault()
+        go(dx < 0 ? 1 : -1) // 左滑→下一个，右滑→上一个
+      }
+    }
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchend', onTouchEnd, { passive: false })
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchend', onTouchEnd)
+    }
   }, [total])
 
   // 刻度尺跳转到指定项（直接跨步淡入淡出，不做多步滑行）
@@ -467,7 +500,23 @@ export default function Cases() {
         </div>
       </div>
 
-      {/* ═══ 底部全宽连续机械刻度尺（点击跳转）═══ */}
+      {/* ═══ 左右极细切换箭头（淡雅版，刻度条激活时淡出避免冲突）═══ */}
+      <div className={`pointer-events-none absolute bottom-[7vh] left-1/2 z-50 flex -translate-x-1/2 items-center gap-5 transition-opacity duration-300 ${dockActive ? 'opacity-0' : 'opacity-100'}`}>
+        <button type="button" onClick={() => go(-1)} aria-label="上一个项目"
+          className={`flex h-9 w-9 items-center justify-center rounded-full border border-one/15 text-one/40 transition-all duration-500 hover:border-khaki/60 hover:text-khaki/80 ${dockActive ? 'pointer-events-none' : 'pointer-events-auto'}`}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <button type="button" onClick={() => go(1)} aria-label="下一个项目"
+          className={`flex h-9 w-9 items-center justify-center rounded-full border border-one/15 text-one/40 transition-all duration-500 hover:border-khaki/60 hover:text-khaki/80 ${dockActive ? 'pointer-events-none' : 'pointer-events-auto'}`}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      </div>
+
+      {/* ═══ 底部 Dock 风格刻度尺（缩略图预览 + 悬停磁性放大）═══ */}
       <div className="pointer-events-none absolute bottom-0 left-0 z-40 w-full">
         {/* 致密垂直细刻度线（装饰轴） */}
         <div
@@ -478,33 +527,77 @@ export default function Cases() {
           }}
           aria-hidden
         />
-        {/* 项目数字轴（可点击跳转） */}
-        <div className="pointer-events-auto absolute inset-x-0 bottom-3 flex items-end justify-between px-[5vw]">
+        {/* Dock 缩略图条（默认仅显示长指针+数字，鼠标进入时缩略图从上方升起） */}
+        <div
+          className="pointer-events-auto absolute inset-x-0 bottom-2 flex items-end justify-between px-[3.5vw]"
+          onMouseEnter={() => { setDockActive(true); setThumbsLoaded(true) }}
+          onMouseLeave={() => { setDockActive(false); setHoverIndex(-1) }}
+        >
           {CASES.map((c, i) => {
             const active = i === index
+            const thumb = MANIFEST[c.slug]?.[0]
+            const thumbSrc = thumb ? `/photos/${c.slug}/${thumb.f}` : ''
+            const dist = hoverIndex >= 0 ? Math.abs(i - hoverIndex) : 999
+            const scale = hoverIndex >= 0 ? Math.max(1, 1 + Math.max(0, 1 - dist / 2.5) * 1.4) : 1
+            const isHovered = hoverIndex === i
             return (
-              <button key={c.slug} type="button" onClick={() => gotoTick(i)}
-                aria-label={`第 ${i + 1} 个项目`}
-                className="group relative flex flex-col items-center"
-                style={{ flex: '1 1 0' }}>
-                {/* 焦段刻度线：默认 6px 半透明白；悬停微升；激活态拉长至 12px 纯白 */}
-                <span
-                  className="relative block w-px origin-bottom transition-all duration-300 ease-out group-hover:-translate-y-0.5"
+              <div
+                key={c.slug}
+                onClick={() => gotoTick(i)}
+                onMouseEnter={() => setHoverIndex(i)}
+                className="group relative flex flex-1 cursor-pointer flex-col items-center"
+              >
+                {/* 放大层：仅缩略图+长指针参与 scale，数字不放大 */}
+                <div
+                  className="relative flex flex-col items-center"
                   style={{
-                    height: active ? '12px' : '6px',
-                    background: active ? '#FFFFFF' : 'rgba(255,255,255,0.3)',
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'bottom center',
+                    zIndex: isHovered ? 60 : active ? 20 : 1,
+                    transition: 'transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1)',
                   }}
-                />
-                {/* 数字切片 [ NN ]：默认 0.4 透明度，悬停/激活升至纯白，激活加粗（机械拨轮 Snap 感） */}
+                >
+                  {/* 缩略图（绝对定位不占布局，默认隐藏，dockActive 时从上方滑入；首次进入才加载图片） */}
+                  <div
+                    className={`pointer-events-none absolute bottom-full mb-1.5 overflow-hidden rounded-sm border transition-all duration-400 ease-out ${active ? 'border-khaki/60' : 'border-one/10'}`}
+                    style={{
+                      width: '30px',
+                      height: '45px',
+                      opacity: dockActive ? 1 : 0,
+                      transform: dockActive ? 'translateY(0)' : 'translateY(10px)',
+                      willChange: 'transform, opacity',
+                    }}
+                  >
+                    {thumbsLoaded && thumbSrc ? (
+                      <img
+                        src={thumbSrc}
+                        alt={c.title}
+                        loading="lazy"
+                        decoding="async"
+                        draggable={false}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-mist" />
+                    )}
+                  </div>
+                  {/* 长指针刻度线（始终保留，默认6px，激活态12px纯白） */}
+                  <span
+                    className="relative block w-px origin-bottom transition-all duration-300 ease-out group-hover:-translate-y-0.5"
+                    style={{
+                      height: active ? '12px' : '6px',
+                      background: active ? '#FFFFFF' : 'rgba(255,255,255,0.3)',
+                    }}
+                  />
+                </div>
+                {/* 数字（始终显示，不参与放大） */}
                 <span
-                  className={`mt-1.5 hidden font-mono tabular-nums transition-all duration-300 sm:inline ${
-                    active ? 'text-one font-bold' : 'text-one/40 group-hover:text-one'
-                  }`}
+                  className={`mt-1.5 font-mono tabular-nums transition-colors duration-300 ${active ? 'text-one font-bold' : 'text-one/40 group-hover:text-one'}`}
                   style={{ fontSize: '0.5rem', letterSpacing: '0.05em' }}
                 >
                   [ {String(i + 1).padStart(2, '0')} ]
                 </span>
-              </button>
+              </div>
             )
           })}
         </div>

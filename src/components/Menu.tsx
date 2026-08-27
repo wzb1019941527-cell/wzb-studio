@@ -37,7 +37,7 @@ const SERVICES = [
  * MenuOverlay —— 全屏报章式菜单（参考 Radaville Studio 目录结构）
  * 固定全屏 z-90 + 暗色 #0A0A0A 底盘 + 胶片颗粒层。
  * 布局：顶栏 WZB STUDIO + CLOSE / 中部 导航 + 右侧 editorial 栏（服务·地点）/ 底部三栏（品牌故事·品牌·触点）。
- * 入场：clip-path 遮罩自顶向下划入 + 目录项 stagger 自下而上微弹浮现；关闭反向渐隐。
+ * 入场：极轻自顶揭幕（5%）+ 整体淡入，目录项与面板近同步浮现（无长延迟），关闭反向渐隐。
  * 打开期间 lenis.stop() 挂起背景滚动；关闭恢复。
  * WORK / CONTACT 走锚点跳转；PHOTOGRAPHY / PORTRAITS / ART 走模态呼出。
  */
@@ -54,18 +54,19 @@ export default function MenuOverlay() {
     if (menuOpen) {
       lenis?.stop()
       gsap.set(panel, { display: 'flex' })
-      // 遮罩划入：自顶向下 clip 揭示 + 淡入
+      // 克制入场：极轻的自顶揭幕（仅 5%）+ 整体淡入，避免"整页下坠"观感
       gsap.fromTo(
         panel,
-        { clipPath: 'inset(0 0 100% 0)', autoAlpha: 0 },
-        { clipPath: 'inset(0 0 0% 0)', autoAlpha: 1, duration: 0.85, ease: 'power4.inOut' },
+        { clipPath: 'inset(0 0 5% 0)', autoAlpha: 0 },
+        { clipPath: 'inset(0 0 0% 0)', autoAlpha: 1, duration: 0.5, ease: 'power3.out' },
       )
       const lines = listRef.current?.querySelectorAll('.menu-line')
       if (lines && lines.length) {
+        // 文字与面板几乎同步浮现，去掉原 0.28s 长延迟，消除"顿一下再出字"
         gsap.fromTo(
           lines,
-          { y: 34, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 0.75, ease: 'power3.out', stagger: 0.09, delay: 0.28 },
+          { y: 16, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 0.5, ease: 'power3.out', stagger: 0.05, delay: 0.08 },
         )
       }
     } else {
@@ -83,6 +84,7 @@ export default function MenuOverlay() {
 
   const goTarget = (target: string) => {
     const lenis = getLenis()
+    setModal(null) // 从模态内点导航项时一并关闭模态，露出主页目标区块
     lenis?.start()
     lenis?.scrollTo?.(target, { offset: -84 })
     setMenuOpen(false)
@@ -96,7 +98,7 @@ export default function MenuOverlay() {
   return (
     <div
       ref={panelRef}
-      className="fixed inset-0 z-[90] hidden flex-col bg-[#0A0A0A]"
+      className="fixed inset-0 z-[100] hidden flex-col overflow-hidden bg-[#0A0A0A]"
       style={{ willChange: 'clip-path', clipPath: 'inset(0 0 100% 0)' }}
       aria-hidden={!menuOpen}
     >
@@ -104,7 +106,7 @@ export default function MenuOverlay() {
       <div className="film-grain-overlay pointer-events-none absolute inset-0 opacity-[0.035]" aria-hidden />
 
       {/* 顶部：WZB STUDIO + CLOSE —— 必须高于目录列表层 */}
-      <div className="relative z-10 flex items-center justify-between px-[7vw] py-5">
+      <div className="relative z-10 flex items-center justify-between px-[3.5vw] py-5">
         <span
           className="font-mono uppercase text-one"
           style={{ fontWeight: 500, letterSpacing: '0.24em', fontSize: '0.95rem' }}
@@ -122,7 +124,7 @@ export default function MenuOverlay() {
       </div>
 
       {/* 中部：导航 + 右侧 editorial 栏（桌面） */}
-      <div className="relative z-10 flex flex-1 flex-col justify-center gap-10 px-[7vw] md:flex-row md:items-center md:gap-[6vw]">
+      <div className="relative z-10 flex flex-1 flex-col justify-center gap-10 px-[3.5vw] md:flex-row md:items-center md:gap-[6vw]">
         {/* 左侧大字号目录（收紧行高与外边距，给右侧留呼吸） */}
         <nav ref={listRef} className="flex flex-1 flex-col">
           {ITEMS.map((it) => (
