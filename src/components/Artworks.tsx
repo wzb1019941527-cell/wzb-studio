@@ -260,7 +260,7 @@ export default function Artworks({ onClose: _onClose }: { onClose: () => void })
                   onError={(e) => { console.warn('[ART] img failed', it.file, e); }}
                   onLoad={() => console.log('[ART] img loaded', it.file)}
                   onClick={() => open(unitItems, ii)}
-                  className="pointer-events-auto block cursor-pointer select-none rounded-sm bg-mist"
+                  className="artwork-hero pointer-events-auto block cursor-pointer select-none rounded-sm bg-mist"
                   style={{
                     maxWidth: isPair ? '40vw' : '55vw',
                     maxHeight: '60vh',
@@ -328,20 +328,20 @@ export default function Artworks({ onClose: _onClose }: { onClose: () => void })
               FINE ART &amp; CURATION
             </span>
           </div>
-          {/* 右上：SCROLL / DRAG */}
-          <div className="absolute right-[3.5vw] top-[12vh] flex flex-col items-end gap-0.5 text-right">
+          {/* 右上：SCROLL / DRAG（手机端隐藏，改为左右滑动） */}
+          <div className="absolute right-[3.5vw] top-[12vh] hidden flex-col items-end gap-0.5 text-right md:flex">
             <span className="font-mono uppercase text-one/40" style={{ fontWeight: 300, letterSpacing: '0.28em', fontSize: '0.6rem' }}>
               SCROLL / DRAG
             </span>
           </div>
           {/* 左下：邮箱 */}
-          <div className="absolute bottom-[7vh] left-[3.5vw]">
+          <div className="absolute bottom-[10vh] left-[3.5vw] md:bottom-[7vh]">
             <span className="font-mono text-one/45" style={{ fontWeight: 300, letterSpacing: '0.12em', fontSize: '0.66rem' }}>
               1019941527@qq.com
             </span>
           </div>
           {/* 右下：地点 */}
-          <div className="absolute bottom-[7vh] right-[3.5vw] text-right">
+          <div className="absolute bottom-[10vh] right-[3.5vw] text-right md:bottom-[7vh]">
             <span className="font-mono text-one/45" style={{ fontWeight: 300, letterSpacing: '0.18em', fontSize: '0.66rem' }}>
               SHENZHEN / CHINA
             </span>
@@ -391,8 +391,8 @@ export default function Artworks({ onClose: _onClose }: { onClose: () => void })
         </div>
       </div>
 
-      {/* 左右极细箭头（底部居中） */}
-      <div className="absolute bottom-[7vh] left-1/2 z-50 flex -translate-x-1/2 items-center gap-6">
+      {/* 左右极细箭头（底部居中；手机端上移避开手势条） */}
+      <div className="absolute bottom-[14vh] left-1/2 z-50 flex -translate-x-1/2 items-center gap-6 md:bottom-[7vh]">
         <button type="button" onClick={() => go(-1)} aria-label="上一个"
           className="flex h-11 w-11 items-center justify-center rounded-full border border-one/25 text-one/80 transition-colors duration-300 hover:border-khaki hover:text-khaki">‹</button>
         <button type="button" onClick={() => go(1)} aria-label="下一个"

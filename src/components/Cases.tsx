@@ -355,8 +355,8 @@ export default function Cases() {
       const t = e.changedTouches[0]
       const dx = t.clientX - startX
       const dy = t.clientY - startY
-      // 水平滑动阈值 50px，且水平位移大于垂直位移
-      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      // 水平滑动阈值 60px，且水平位移大于垂直位移的1.5倍（避免与浏览器上下滚动冲突）
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
         e.preventDefault()
         go(dx < 0 ? 1 : -1) // 左滑→下一个，右滑→上一个
       }
@@ -402,7 +402,7 @@ export default function Cases() {
             <>
               <img key={`hero-${cur.slug}`} src={heroSrc} alt={cur.title} draggable={false}
                 onClick={() => open(items, 0)}
-                className="pointer-events-auto block cursor-pointer select-none rounded-[2px] bg-mist h-[46vh] max-w-[95vw] sm:h-[58vh] sm:max-w-[92vw] md:h-[68vh] md:max-w-[88vw]"
+                className="pointer-events-auto block cursor-pointer select-none rounded-[2px] bg-mist h-[54vh] max-w-[96vw] sm:h-[58vh] sm:max-w-[92vw] md:h-[68vh] md:max-w-[88vw]"
                 style={{
                   width: 'auto',
                   objectFit: 'contain',
@@ -420,7 +420,7 @@ export default function Cases() {
               <div className="pointer-events-none absolute bottom-0 left-0 flex max-w-full flex-col items-start pb-5 pl-4 pr-3 text-left sm:pb-6 sm:pl-6 md:pb-8 md:pl-8">
                 {/* 英文主标题：Syne 先锋宽体 + 字重700 + 极高字距；掩码容器 + 升起行（切页划出） */}
                 <div className="overflow-hidden py-1">
-                  <h2 className="title-line block break-words font-display text-one uppercase text-sm leading-tight sm:text-lg md:text-2xl lg:text-3xl"
+                  <h2 className="title-line block break-words font-display text-one uppercase text-base leading-tight sm:text-lg md:text-2xl lg:text-3xl"
                     style={{ fontWeight: 700, letterSpacing: '0.18em',
                       textShadow: '0 1px 10px rgba(0,0,0,0.4)' }}>
                     {cur.en}
@@ -429,7 +429,7 @@ export default function Cases() {
                 {/* 中文微型铭牌副标题（极细宋体 + 宽字距）；掩码容器 + 升起行 */}
                 <div className="mt-1.5 overflow-hidden py-1">
                   <span className="subtitle-line block font-cjk text-one/55"
-                    style={{ fontWeight: 300, fontSize: '0.6rem', letterSpacing: '0.4em' }}>
+                    style={{ fontWeight: 300, fontSize: 'clamp(0.7rem, 2.2vw, 0.85rem)', letterSpacing: '0.3em' }}>
                     {cur.title}
                   </span>
                 </div>
@@ -454,8 +454,8 @@ export default function Cases() {
                 )}
 
                 <button type="button" onClick={() => open(items, 0)}
-                  className="pointer-events-auto mt-4 font-mono text-one/60 transition-colors duration-300 hover:text-khaki"
-                  style={{ fontWeight: 400, letterSpacing: '0.22em', fontSize: '0.6rem' }}>
+                  className="pointer-events-auto mt-4 rounded px-2 py-2 font-mono text-one/60 transition-colors duration-300 hover:text-khaki md:px-0 md:py-0"
+                  style={{ fontWeight: 400, letterSpacing: '0.22em', fontSize: 'clamp(0.62rem, 2vw, 0.7rem)' }}>
                   VIEW FULL PROJECT <span aria-hidden className="ml-1">↗</span>
                 </button>
               </div>
@@ -467,17 +467,17 @@ export default function Cases() {
         <div ref={metaRef} className="pointer-events-none absolute inset-0 z-40 will-change-transform">
 
           {/* 左上：YEAR（随当前案例动态） */}
-          <div className="absolute left-[3.5vw] top-[12vh] flex flex-col gap-0.5">
-            <span className="font-mono uppercase text-khaki/70" style={{ fontWeight: 500, letterSpacing: '0.3em', fontSize: '0.58rem' }}>
+          <div className="absolute left-[3.5vw] top-[10vh] flex flex-col gap-0.5 md:top-[12vh]">
+            <span className="font-mono uppercase text-khaki/70" style={{ fontWeight: 500, letterSpacing: '0.3em', fontSize: 'clamp(0.6rem, 2vw, 0.7rem)' }}>
               Year
             </span>
-            <span className="font-mono text-bone/75" style={{ fontWeight: 300, fontSize: '0.86rem' }}>
+            <span className="font-mono text-bone/75" style={{ fontWeight: 300, fontSize: 'clamp(1rem, 4vw, 1.2rem)' }}>
               {cur.year}
             </span>
           </div>
 
-          {/* 右上：SCROLL */}
-          <div className="absolute right-[3.5vw] top-[12vh] flex flex-col items-end gap-0.5">
+          {/* 右上：SCROLL（手机端隐藏，改为左右滑动） */}
+          <div className="absolute right-[3.5vw] top-[12vh] hidden flex-col items-end gap-0.5 md:flex">
             <span className="font-mono uppercase text-bone/40" style={{ fontWeight: 300, letterSpacing: '0.28em', fontSize: '0.6rem' }}>
               Scroll
             </span>
@@ -485,39 +485,39 @@ export default function Cases() {
           </div>
 
           {/* 左下：邮箱 */}
-          <div className="absolute bottom-[7vh] left-[3.5vw]">
-            <span className="font-mono text-bone/45" style={{ fontWeight: 300, letterSpacing: '0.12em', fontSize: '0.66rem' }}>
+          <div className="absolute bottom-[10vh] left-[3.5vw] md:bottom-[7vh]">
+            <span className="font-mono text-bone/45" style={{ fontWeight: 300, letterSpacing: '0.12em', fontSize: 'clamp(0.6rem, 2vw, 0.72rem)' }}>
               1019941527@qq.com
             </span>
           </div>
 
           {/* 右下：地点（随当前案例动态） */}
-          <div className="absolute bottom-[7vh] right-[3.5vw]">
-            <span className="font-mono text-bone/45" style={{ fontWeight: 300, letterSpacing: '0.18em', fontSize: '0.66rem' }}>
+          <div className="absolute bottom-[10vh] right-[3.5vw] md:bottom-[7vh]">
+            <span className="font-mono text-bone/45" style={{ fontWeight: 300, letterSpacing: '0.18em', fontSize: 'clamp(0.6rem, 2vw, 0.72rem)' }}>
               {cur.location}
             </span>
           </div>
         </div>
       </div>
 
-      {/* ═══ 左右极细切换箭头（淡雅版，刻度条激活时淡出避免冲突）═══ */}
-      <div className={`pointer-events-none absolute bottom-[7vh] left-1/2 z-50 flex -translate-x-1/2 items-center gap-5 transition-opacity duration-300 ${dockActive ? 'opacity-0' : 'opacity-100'}`}>
+      {/* ═══ 左右极细切换箭头（淡雅版，刻度条激活时淡出避免冲突；手机端上移避开手势条）═══ */}
+      <div className={`pointer-events-none absolute bottom-[14vh] left-1/2 z-50 flex -translate-x-1/2 items-center gap-5 transition-opacity duration-300 md:bottom-[7vh] ${dockActive ? 'opacity-0' : 'opacity-100'}`}>
         <button type="button" onClick={() => go(-1)} aria-label="上一个项目"
-          className={`flex h-9 w-9 items-center justify-center rounded-full border border-one/15 text-one/40 transition-all duration-500 hover:border-khaki/60 hover:text-khaki/80 ${dockActive ? 'pointer-events-none' : 'pointer-events-auto'}`}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          className={`flex h-11 w-11 items-center justify-center rounded-full border border-one/15 text-one/40 transition-all duration-500 hover:border-khaki/60 hover:text-khaki/80 md:h-9 md:w-9 ${dockActive ? 'pointer-events-none' : 'pointer-events-auto'}`}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
         <button type="button" onClick={() => go(1)} aria-label="下一个项目"
-          className={`flex h-9 w-9 items-center justify-center rounded-full border border-one/15 text-one/40 transition-all duration-500 hover:border-khaki/60 hover:text-khaki/80 ${dockActive ? 'pointer-events-none' : 'pointer-events-auto'}`}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          className={`flex h-11 w-11 items-center justify-center rounded-full border border-one/15 text-one/40 transition-all duration-500 hover:border-khaki/60 hover:text-khaki/80 md:h-9 md:w-9 ${dockActive ? 'pointer-events-none' : 'pointer-events-auto'}`}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <polyline points="9 18 15 12 9 6" />
           </svg>
         </button>
       </div>
 
-      {/* ═══ 底部 Dock 风格刻度尺（缩略图预览 + 悬停磁性放大）═══ */}
-      <div className="pointer-events-none absolute bottom-0 left-0 z-40 w-full">
+      {/* ═══ 底部 Dock 风格刻度尺（缩略图预览 + 悬停磁性放大；适配手机安全区）═══ */}
+      <div className="pointer-events-none absolute bottom-0 left-0 z-40 w-full" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         {/* 致密垂直细刻度线（装饰轴） */}
         <div
           className="absolute inset-x-0 bottom-0 h-9"
@@ -593,7 +593,7 @@ export default function Cases() {
                 {/* 数字（始终显示，不参与放大） */}
                 <span
                   className={`mt-1.5 font-mono tabular-nums transition-colors duration-300 ${active ? 'text-one font-bold' : 'text-one/40 group-hover:text-one'}`}
-                  style={{ fontSize: '0.5rem', letterSpacing: '0.05em' }}
+                  style={{ fontSize: 'clamp(0.55rem, 2vw, 0.65rem)', letterSpacing: '0.05em' }}
                 >
                   [ {String(i + 1).padStart(2, '0')} ]
                 </span>

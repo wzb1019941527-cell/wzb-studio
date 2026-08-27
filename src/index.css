@@ -338,48 +338,27 @@ body {
 
 /* ── 移动端响应式适配（≤768px）────────────────────────────── */
 @media (max-width: 768px) {
-  /* 安全区域：刘海屏 / 底部横条 */
   html {
     -webkit-text-size-adjust: 100%;
   }
   body {
-    /* 允许垂直滚动在内容超出时，但主页固定一屏 */
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* 顶部 Header 增加安全区域 */
+  /* 顶部 Header 安全区域 */
   .site-header {
-    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-top: max(0.75rem, env(safe-area-inset-top)) !important;
   }
 
-  /* Cases / Artworks 四角元数据：手机端缩小并内移避免贴边 */
-  #cases .absolute.left-\[3\.5vw\],
-  #cases .absolute.right-\[3\.5vw\] {
-    /* 用更大的 vw 让元数据更靠内 */
-  }
-
-  /* 底部 Dock：手机端隐藏缩略图（无 hover），仅保留刻度线+数字 */
-  /* 缩略图容器默认 opacity:0，手机端始终不显示 */
-  #cases .pointer-events-auto.absolute.inset-x-0.bottom-2 .absolute.bottom-full {
+  /* Cases 底部 Dock 缩略图：手机端彻底隐藏（触屏无 hover） */
+  #cases .absolute.bottom-full {
     display: none !important;
   }
 
-  /* 底部刻度尺数字：手机端稍微放大提升可读性 */
-  #cases .pointer-events-auto.absolute.inset-x-0.bottom-2 .font-mono {
-    font-size: 0.55rem !important;
-  }
-
-  /* 左右切换箭头：手机端增大触控区域 */
-  #cases button[aria-label="上一个项目"],
-  #cases button[aria-label="下一个项目"] {
-    width: 44px !important;
-    height: 44px !important;
-  }
-
-  /* Menu 菜单：手机端调整字号和间距 */
+  /* Menu 菜单：手机端字号和间距 */
   .menu-line {
-    padding: 0.75rem 0 !important;
+    padding: 0.7rem 0 !important;
   }
   .menu-line .font-display {
     font-size: clamp(1.8rem, 10vw, 3rem) !important;
@@ -388,26 +367,36 @@ body {
     font-size: 0.68rem !important;
   }
 
-  /* Portraits 图片：手机端降低高度避免溢出 */
+  /* Portraits 图片：手机端降低高度 */
   .h-\[52vh\] {
-    height: 48vh !important;
+    height: 46vh !important;
   }
 
-  /* Contact 链接：手机端缩小字号 */
+  /* Contact 链接：手机端字号 */
   .contact-link {
     font-size: clamp(1.3rem, 7vw, 2.2rem) !important;
   }
 
-  /* 禁止长按选中图片（app-like 体验） */
+  /* 禁止长按选中图片 */
   img {
     -webkit-user-drag: none;
     user-select: none;
   }
 
-  /* 底部安全区域留白 */
-  #cases .absolute.bottom-0,
+  /* Artworks 底部刻度尺安全区域 */
   #artworks .absolute.bottom-0 {
     padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Artworks 主图：手机端放大 */
+  #artworks .artwork-hero {
+    max-width: 82vw !important;
+    max-height: 52vh !important;
+  }
+
+  /* Artworks 铭牌文字：手机端放大 */
+  #artworks .art-title-line {
+    font-size: clamp(1.2rem, 5vw, 2rem) !important;
   }
 }
 
