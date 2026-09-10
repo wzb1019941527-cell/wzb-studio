@@ -49,6 +49,13 @@ const CASES: CaseStudy[] = [
     themeColor: '#2A2522',
   },
   {
+    slug: 'p23', title: '「漂移」林枞个展', en: 'DRIFT',
+    city: '深圳', year: '2026', category: 'Exhibition & Gallery Curation', location: 'Shenzhen, China',
+    storyEn: 'Lin Cong’s solo exhibition “Drift” — forms drifting quietly through the gallery, where restrained spatial styling frees each work from a fixed anchor and lets it find its own mooring in the viewer’s passage.',
+    storyCn: '林枞个展「漂移」：形态在展厅中缓缓漂移，克制的空间展陈让每件作品脱离固定锚点，在观者的行走之间找到各自的落点。',
+    themeColor: '#272320',
+  },
+  {
     slug: 'p03', title: '成都国贸启樾天玺 245', en: 'CHENGDU GUOMAO QIYUE TIANXI 245',
     city: '成都', year: '2025', category: 'Commercial & Hospitality Space', location: 'Chengdu, China',
     storyEn: 'A hospitality-grade commercial styling: deep wood and brass anchor the luxury, while clustered seating forms stay-able social nodes that slow the transaction down.',
